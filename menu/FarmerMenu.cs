@@ -17,7 +17,7 @@ namespace FarmProduceManagementApp.menu
         {
             Console.WriteLine();
             Console.WriteLine("===Farmer Menu====");
-            Console.WriteLine("Enter 1 to add produce that you want to sell\nEnter 2 to view produce");
+            Console.WriteLine("Enter 1 to add produce that you want to sell\nEnter 2 to view produce\nEnter 3 to go back to the main menu");
             int opt = int.Parse(Console.ReadLine());
             if (opt == 1)
             {
@@ -40,6 +40,12 @@ namespace FarmProduceManagementApp.menu
 
                 RealFarmerMenu(farmerId);
             }
+            else if (opt == 3)
+            {
+                var mainMenu = new MainMenu();
+                Console.WriteLine();
+                mainMenu.RealMenu();
+            }
         }
 
         public void UpdateFarmerStatusMenu()
@@ -53,12 +59,13 @@ namespace FarmProduceManagementApp.menu
 
         public void AddproduceMenu(int farmerId)
         {
+
             Console.WriteLine();
             Console.WriteLine("Enter the category of produce you want to input");
             Console.WriteLine("Enter 1 for plantations, 2 for oilseeds, 3 for cereals and 4 for fruits: ");
             int opt = int.Parse(Console.ReadLine());
-           // ProduceCategory produceCategory = ProduceCategory.Plantations;
-            
+            // ProduceCategory produceCategory = ProduceCategory.Plantations;
+
             Console.Write("Enter the produce name: ");
             string name = Console.ReadLine();
 
@@ -68,36 +75,54 @@ namespace FarmProduceManagementApp.menu
             string nameOfCategory = ((ProduceCategory)opt).ToString();
 
             double setPrice = (int)Enum.Parse(typeof(ProduceCategoryPrices), nameOfCategory);
-            bool flag = (price >= (setPrice + 100)) == true;
+            bool flag = (price > (setPrice + 100));
             int countAsking = 0;
-            while (flag)
+            if (flag)
             {
-                Console.WriteLine();
-                Console.WriteLine($"#{price} is too exorbitant for this category");
-                Console.Write("Enter the price that you want to sell your produce: ");
-                price = double.Parse(Console.ReadLine());
-                countAsking++;
-                if (countAsking >= 2)
+                while (true)
                 {
                     Console.WriteLine();
-                    Console.WriteLine($"The price shouidn't be more than #{setPrice + 100} for this category");
-                    Console.WriteLine("Do you still want to sell your produce(Yes/No) ");
-                    string response = Console.ReadLine();
-                    if (response.ToLower() == "no")
+                    Console.WriteLine($"#{price} is too exorbitant for this category");
+                    Console.Write("Enter the price that you want to sell your produce: ");
+                    price = double.Parse(Console.ReadLine());
+                    countAsking++;
+                    if (countAsking >= 1)
                     {
-                        Console.WriteLine("Thank you, bye for now");
-                        flag = false;
-                    }
-                    else
-                    {
-                        Console.Write("Enter the price that you want to sell your produce: ");
-                        price = double.Parse(Console.ReadLine());
+                        Console.WriteLine();
+                        Console.WriteLine($"The price shouidn't be more than #{setPrice + 100} for this category");
+                        Console.WriteLine("Do you still want to sell your produce(Yes/No) ");
+                        string response = Console.ReadLine();
+                        if (response.ToLower() == "no")
+                        {
+                            Console.WriteLine("Thank you, bye for now");
+                            
+
+                        }
+                        else
+                        {
+                            Console.Write("Enter the price that you want to sell your produce: ");
+                            price = double.Parse(Console.ReadLine());
+                            if (!(price > (setPrice + 100)))
+                            {
+                                Console.Write("Enter the quantity: ");
+                                int quantity = int.Parse(Console.ReadLine());
+                                produceManager.Addproduce(name, price, quantity, (ProduceCategory)opt, farmerId);
+                                break;
+                            }
+                        }
                     }
                 }
+
             }
-            Console.Write("Enter the quantity: ");
-            int quantity = int.Parse(Console.ReadLine());
-            produceManager.Addproduce(name, price, quantity, (ProduceCategory)opt, farmerId);
+            else
+            {
+                Console.Write("Enter the quantity: ");
+                int quantity = int.Parse(Console.ReadLine());
+                produceManager.Addproduce(name, price, quantity, (ProduceCategory)opt, farmerId);
+            }
+
+
+
             RealFarmerMenu(farmerId);
             Console.WriteLine();
 

@@ -73,7 +73,7 @@ namespace FarmProduceManagementApp.implementations
         {
             var manager = new Manager(managerDataBase.Count + 1, GenerateManagererRegNo(),  "Manager", 0, name, email, address,phoneNumber, pin, gender);
             managerDataBase.Add(manager);
-            Console.WriteLine($"{name} registered successfully, his staff registration number is {GenerateManagererRegNo()}");
+            Console.WriteLine($"{name} registered successfully, his staff registration number is {manager.StaffRegNo}");
         }
 
         public void GetAllmanagers()

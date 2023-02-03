@@ -59,15 +59,21 @@ namespace FarmProduceManagementApp.menu
             Console.WriteLine("Enter the registration number of the manager ");
             string regNo = Console.ReadLine();
             var manager = managerManager.SearchManagerByStaffRegNo(regNo);
-
-            Console.WriteLine($" You have searched for {manager.Name}, having an email of {manager.Email}, id number {manager.Id}, pin {manager.Pin}, phone number {manager.PhoneNumber} with an address {manager.Address}");
-
+            if(manager == null)
+            {
+                Console.WriteLine("Not found!");
+            }
+            else
+            {
+                Console.WriteLine($" You have searched for {manager.Name}, having an email of {manager.Email}, id number {manager.Id}, pin {manager.Pin}, phone number {manager.PhoneNumber} with an address {manager.Address}");
+            }
         }
 
         public void ManagerSignUpMenu()
         {
             Console.WriteLine("====Registration Of Manager====");
             Console.Write("Enter the following information about the manager: ");
+            Console.WriteLine();
             Console.Write("Name: ");
             string name = Console.ReadLine();
 
