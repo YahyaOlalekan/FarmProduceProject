@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FarmProduceManagementApp.enums;
 using FarmProduceManagementApp.interfaces;
 using FarmProduceManagementApp.models;
 
@@ -10,34 +11,77 @@ namespace FarmProduceManagementApp.implementations
     public class CustomerManager : ICustomerManager
     {
         public static List<Customer> customerDataBase = new List<Customer>();
-       IUserManager userManager = new UserManager();
+        
         public void GetAllCustomers()
         {
-            foreach(var customer in customerDataBase)
+            foreach (var customer in customerDataBase)
             {
-                var user = userManager.SearchUser(customer.UserId);
-                Console.WriteLine($"{user.Name}\t{customer.CustomerRegNo}\t{user.Address}\t{user.PhoneNumber}");
+               
+                Console.WriteLine($"{customer.Name}\t{customer.CustomerRegNo}\t{customer.Address}\t{customer.PhoneNumber}");
             }
         }
 
-        public void RegisterCustomer()
+        public void RegisterCustomer(string name, string email, int pin, Gender gender, string address, string phoneNumber)
         {
-            var customer = new Customer(customerDataBase.Count + 1, UserManager.userDataBase.Count, GenerateRegNo(), 0, "Customer")
+            var customer = new Customer(GenerateCustomerRegNo(), 0, "Customer" , customerDataBase.Count + 1, name , email , address , phoneNumber ,  pin , gender);
+            customerDataBase.Add(customer);
+
+            Console.WriteLine($"Dear {name}, you have been sucessfully registered, your registration number is {customer.CustomerRegNo} and your wallet balance is {customer.Wallet}");
         }
 
-        public Customer Search(string email)
+        private string GenerateCustomerRegNo()
         {
-            throw new NotImplementedException();
+            return "CLH/CTM/00" + (customerDataBase.Count + 1).ToString();
         }
 
-        public Customer SearchCustomer(int id)
+        public Customer SearchCustomerByEmail(string email)
         {
-            throw new NotImplementedException(); 
+           
+            foreach (var customer in customerDataBase)
+            {
+                if (customer.Email == email)
+                {
+                    return customer;
+                }
+            }
+            return null;
         }
 
-        public Customer SearchCustomer(string regNo)
+        public Customer SearchCustomerById(int id)
         {
-            throw new NotImplementedException();
+            foreach (var customer in customerDataBase)
+            {
+                if (customer.Id == id)
+                {
+                    return customer;
+                }
+            }
+            return null;
+        }
+        
+
+        public Customer SearchCustomerByRegNo(string regNo)
+        {
+            foreach (var customer in customerDataBase)
+            {
+                if (customer.CustomerRegNo == regNo)
+                {
+                    return customer;
+                }
+            }
+            return null;
+        }
+
+        public Customer SearchCustomerByEmailAndPassWord(string email, int passwd)
+        {
+            foreach (var customer in customerDataBase)
+            {
+                if (customer.Email == email && customer.Pin == passwd)
+                {
+                    return customer;
+                }
+            }
+            return null;
         }
     }
 }

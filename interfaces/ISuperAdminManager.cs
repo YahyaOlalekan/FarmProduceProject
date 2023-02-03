@@ -10,6 +10,7 @@ namespace FarmProduceManagementApp.interfaces
     public interface ISuperAdminManager
     {
         public void UpdateProfile(string name, string email, Gender gender, string address, string phoneNumber);
-        public SuperAdmin Search(string email);
+        //public SuperAdmin SearchByEmail(string email);
+         public SuperAdmin SearchSuperAdminByEmailAndPassWord(string email , int passwd);
     }
 }

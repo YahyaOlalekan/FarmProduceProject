@@ -8,12 +8,12 @@ namespace FarmProduceManagementApp.interfaces
 {
     public interface IOrderManager
     {
-        public Order SearchOrder(int id);
-        public Order SearchOrder(string refNumber);
+        public Order SearchOrderById(int id);
+        public Order SearchOrderByRefNumber(string refNumber);
         public void GetAllOrders();
-        public void OrderReady(string refNumber);
-        public void CancelOrder(string refNumber);
+        public void SearchIfOrderReadyByRefNumber(string refNumber);
+        public void CancelOrderByRefNumber(string refNumber);
         public void MakeOrder(string customerEmail, double totalPrice, Dictionary<string, int> produces);
-
+        void SearchOrderByRefNumberMenu();
     }
 }

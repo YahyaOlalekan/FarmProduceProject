@@ -1,4 +1,5 @@
 ﻿using System;
+using FarmProduceManagementApp.menu;
 
 namespace FarmProduceManagementApp
 {
@@ -6,7 +7,9 @@ namespace FarmProduceManagementApp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            MainMenu mainMenu = new MainMenu();
+            mainMenu.RealMenu();
+            
         }
     }
 }
