@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 using FarmProduceManagementApp.enums;
 using FarmProduceManagementApp.interfaces;
 using FarmProduceManagementApp.implementations;
+using FarmProduceManagementApp.models;
 
 namespace FarmProduceManagementApp.menu
 {
     public class MainMenu
     {
-
+        public static User _currentUser = null;
         ICustomerManager customerManager = new CustomerManager();
         IFarmerManager farmerManager = new FarmerManager();
         ISuperAdminManager superAdminManager = new SuperAdminManager();
@@ -129,12 +130,14 @@ namespace FarmProduceManagementApp.menu
 
             else if (customerLogin != null)
             {
+                _currentUser = customerLogin;
                 Console.WriteLine($"Dear {customerLogin.Name}, you have successfully logged in");
                 customerMenu.RealCustomerMenu();
             }
 
             else if (farmerLogin != null)
             {
+                _currentUser = farmerLogin;
                 Console.WriteLine($"Dear {farmerLogin.Name}, you have successfully logged in ");
                 farmerMenu.RealFarmerMenu(farmerLogin.Id);
             }

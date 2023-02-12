@@ -43,7 +43,9 @@ namespace FarmProduceManagementApp.implementations
                 
                 produceDataBase.Add(produce);
                 //Console.WriteLine($"{farmerId}\t{produceDataBase.Count}");
-                Console.WriteLine($"{produce.ProduceName} added successfully, quantity in stock is {produce.Quantity}");
+                Console.WriteLine($"{produceName} added successfully, quantity in stock is {quantity}");
+                Console.WriteLine($"Total amount of your produce sold is #{price * quantity}");
+
                 Console.WriteLine();
             }
         }
@@ -64,7 +66,7 @@ namespace FarmProduceManagementApp.implementations
         {
             foreach (var produce in produceDataBase)
             {
-                Console.WriteLine($"produce name:{produce.ProduceName}\t\tserial number:{produce.SerialNumber}\t\tquantity:{produce.Quantity}");
+                Console.WriteLine($"produce name:{produce.ProduceName}\tserial number:{produce.SerialNumber}\tquantity:{produce.Quantity}\tprice:{produce.Price}");
             }
         }
 

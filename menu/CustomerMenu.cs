@@ -14,17 +14,17 @@ namespace FarmProduceManagementApp.menu
         IProduceManager produceManager = new ProduceManager();
         IOrderManager orderManager = new OrderManager();
         ICustomerManager customerManager = new CustomerManager();
-        
-        
+
+
         public void RealCustomerMenu()
         {
-            MainMenu mainMenu = new MainMenu();
+            var mainMenu = new MainMenu();
             Console.WriteLine();
-            Console.WriteLine("======Customer Menu======");
+            Console.WriteLine("====Customer Menu====");
             Console.WriteLine("Enter 1 to view all produce\nEnter 2 to make order\nEnter 3 to fund wallet\nEnter 4 to check wallet balance\nEnter 0 to go back");
             int option = int.Parse(Console.ReadLine());
 
-        
+
             if (option == 0)
             {
                 mainMenu.RealMenu();
@@ -49,7 +49,7 @@ namespace FarmProduceManagementApp.menu
             {
                 Console.WriteLine("Wrong input");
             }
-            
+
             RealCustomerMenu();
         }
 
@@ -61,23 +61,23 @@ namespace FarmProduceManagementApp.menu
         }
         public string FundWallet()
         {
-            Console.WriteLine("Enter the email ");
-            string email = Console.ReadLine();
-            Console.WriteLine("Enter the password ");
-            int passwd = int.Parse(Console.ReadLine());
+            // Console.WriteLine("Enter the email ");
+            // string email = Console.ReadLine();
+            // Console.WriteLine("Enter the password ");
+            // int passwd = int.Parse(Console.ReadLine());
             Console.WriteLine("Enter the amount to deposit ");
             double amount = double.Parse(Console.ReadLine());
-            var customer = customerManager.SearchCustomerByEmailAndPassWord(email, passwd);
-            
+            var customer = customerManager.SearchCustomerByEmailAndPassWord(MainMenu._currentUser.Email, MainMenu._currentUser.Pin);
+
 
             if (customer == null)
             {
                 Console.WriteLine("You don't have wallet!");
             }
-            else if(amount <= 0 )
+            else if (amount <= 0)
             {
-                Console.WriteLine("You don't have enough amount in your wallet!");
-                
+                Console.WriteLine("Invalid amount!");
+
             }
             customer.Wallet += amount;
             return $"Your balance is #{customer.Wallet} ";
@@ -86,7 +86,8 @@ namespace FarmProduceManagementApp.menu
         public void MakeOrderMenu()
         {
             Console.Write("Enter your email address: ");
-            string email = Console.ReadLine();
+            //string email = Console.ReadLine();
+            
 
             bool flag = true;
             double totalPrice = 0;
@@ -107,19 +108,42 @@ namespace FarmProduceManagementApp.menu
                         Console.WriteLine($"Enter {item.Id} to buy {item.ProduceName}");
                     }
                 }
-                int option = int.Parse(Console.ReadLine());
+                int option = 0;
+                if (!int.TryParse(Console.ReadLine(), out  option))
+                {
+                    Console.WriteLine("Invalid input");
+                    for (; ; )
+                    {
+                        foreach (var item in ProduceManager.produceDataBase)
+                        {
+                            if (choice == (int)item.Category)
+                            {
+                                Console.WriteLine($"Enter {item.Id} to buy {item.ProduceName}");
+                            }
+                        }
+                        if (int.TryParse(Console.ReadLine(), out  option))
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid input");
+                        }
+
+                    }
+                }
 
                 Console.WriteLine($"Enter the quantity : ");
-                double quantity = int.Parse(Console.ReadLine());
+                double quantity = double.Parse(Console.ReadLine());
 
 
                 var produce = produceManager.GetProduceById(option, choice, quantity);
-                var customer = customerManager.SearchCustomerByEmail(email);
+                var customer = customerManager.SearchCustomerByEmail(MainMenu._currentUser.Email);
                 if (produce == null)
                 {
                     Console.WriteLine("Quantity requested is more than the stock");
                 }
-                else if (customer.Wallet < (produce.Quantity * produce.Price))
+                else if (customer.Wallet < (quantity * produce.Price))
                 {
                     Console.WriteLine("You don't have enough amount in your wallet!");
                     break;
@@ -135,7 +159,7 @@ namespace FarmProduceManagementApp.menu
                         ProduceManager.produceDataBase.Remove(produce);
                     }
                     var id = Transaction.Transactions.Count() == 0 ? 1 : Transaction.Transactions.Count() + 1;
-                    Transaction.Transactions.Add(new Transaction(id, produce.Id, produce.Category, produce.ProduceName, email, quantity));
+                    Transaction.Transactions.Add(new Transaction(id, produce.Id, produce.Category, produce.ProduceName, MainMenu._currentUser.Email, quantity));
                     Console.WriteLine("Your order is successful");
                 }
 
@@ -148,8 +172,8 @@ namespace FarmProduceManagementApp.menu
                 }
             }
 
-            orderManager.MakeOrder(email, totalPrice, produces);
-           
+            orderManager.MakeOrder(MainMenu._currentUser.Email, totalPrice, produces);
+
             RealCustomerMenu();
 
         }
@@ -157,18 +181,18 @@ namespace FarmProduceManagementApp.menu
         public void CheckWalletBalance()
         {
             Console.WriteLine();
-            Console.WriteLine("Enter your email");
-            string email = Console.ReadLine();
-            
-            Console.WriteLine("Enter your password");
-            int passwd = int.Parse(Console.ReadLine());
-            
-            var customer = customerManager.SearchCustomerByEmailAndPassWord(email, passwd);
-            if(customer != null)
+            // Console.WriteLine("Enter your email");
+            // string email = Console.ReadLine();
+
+            // Console.WriteLine("Enter your password");
+            // int passwd = int.Parse(Console.ReadLine());
+
+            var customer = customerManager.SearchCustomerByEmailAndPassWord(MainMenu._currentUser.Email, MainMenu._currentUser.Pin);
+            if (customer != null)
             {
-                Console.WriteLine($"Your wallet balance is {customer.Wallet}"); 
+                Console.WriteLine($"Your wallet balance is {customer.Wallet}");
             }
-            
+
         }
     }
 }

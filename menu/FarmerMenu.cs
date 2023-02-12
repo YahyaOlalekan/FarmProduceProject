@@ -54,17 +54,14 @@ namespace FarmProduceManagementApp.menu
             string email = Console.ReadLine();
             Console.Write("Enter status (1 for Approval, 2 for Cancel) ");
             int status = int.Parse(Console.ReadLine());
-            //farmerManager.UpdateFarmerRegStatus(email, (FarmerRegStatus)status);
         }
 
         public void AddproduceMenu(int farmerId)
         {
-
             Console.WriteLine();
             Console.WriteLine("Enter the category of produce you want to input");
             Console.WriteLine("Enter 1 for plantations, 2 for oilseeds, 3 for cereals and 4 for fruits: ");
             int opt = int.Parse(Console.ReadLine());
-            // ProduceCategory produceCategory = ProduceCategory.Plantations;
 
             Console.Write("Enter the produce name: ");
             string name = Console.ReadLine();
@@ -89,26 +86,21 @@ namespace FarmProduceManagementApp.menu
                     if (countAsking >= 1)
                     {
                         Console.WriteLine();
-                        Console.WriteLine($"The price shouidn't be more than #{setPrice + 100} for this category");
-                        Console.WriteLine("Do you still want to sell your produce(Yes/No) ");
+                        Console.WriteLine($"The price shouidn't be more than #{setPrice + 100} for this category, are you ready to sell for this price?");
+                        Console.WriteLine("Enter Yes to sell your produce or No to go back to previous menu");
                         string response = Console.ReadLine();
                         if (response.ToLower() == "no")
                         {
                             Console.WriteLine("Thank you, bye for now");
-                            
-
+                            break;
                         }
                         else
                         {
-                            Console.Write("Enter the price that you want to sell your produce: ");
-                            price = double.Parse(Console.ReadLine());
-                            if (!(price > (setPrice + 100)))
-                            {
-                                Console.Write("Enter the quantity: ");
-                                int quantity = int.Parse(Console.ReadLine());
-                                produceManager.Addproduce(name, price, quantity, (ProduceCategory)opt, farmerId);
-                                break;
-                            }
+                            price = setPrice + 100;
+                            Console.Write("Enter the quantity: ");
+                            int quantity = int.Parse(Console.ReadLine());
+                            produceManager.Addproduce(name, price, quantity, (ProduceCategory)opt, farmerId);
+                            break;
                         }
                     }
                 }
@@ -121,15 +113,9 @@ namespace FarmProduceManagementApp.menu
                 produceManager.Addproduce(name, price, quantity, (ProduceCategory)opt, farmerId);
             }
 
-
-
             RealFarmerMenu(farmerId);
             Console.WriteLine();
 
-
-
         }
-
-
     }
 }

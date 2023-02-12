@@ -39,6 +39,8 @@ namespace FarmProduceManagementApp.implementations
         {
             Order order = new Order(ordersDataBase.Count + 1, GenerateReferenceNumber(), customerEmail, totalPrice, DeliveryStatus.Initiated, produces);
             ordersDataBase.Add(order);
+
+            //Console.WriteLine("The order is successful");
         }
 
         private string GenerateReferenceNumber()

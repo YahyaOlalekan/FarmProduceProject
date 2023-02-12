@@ -27,7 +27,7 @@ namespace FarmProduceManagementApp.implementations
         {
             //Random random = new Random();
           // return "FAR/"+(random.Next(0, 100));
-           return "FAR/00"+(farmersDataBase.Count + 1);
+           return "CLH/FAR/00"+(farmersDataBase.Count + 1);
         }
 
         public void RegisterFarmer(string name, string email, int pin, Gender gender, string address, string phoneNumber)
@@ -40,18 +40,10 @@ namespace FarmProduceManagementApp.implementations
 
         private string GenerateFarmerRegNo()
         {
-            return "CLH/CTM/00" + (farmersDataBase.Count + 1).ToString();
+            return "CLH/FAR/00" + (farmersDataBase.Count + 1).ToString();
         }
         
-        // public void RegisterFarmer()
-        // {
-        //     var farmer = new Farmer(farmersDataBase.Count + 1, UserManager.userDataBase.Count, GetFarmerRegNumber(), 0.00, "farmer", FarmerRegStatus.Pending);
-        //     farmersDataBase.Add(farmer);
-
-        //     var user = userManager.SearchUserById(farmer.UserId);
-        //     Console.WriteLine($"Dear {user.Name}, you have been sucessfully registered, your registration number is {farmer.FarmerRegNo} and your wallet balance is #{farmer.Wallet}");
-
-        // }
+       
 
 
 
